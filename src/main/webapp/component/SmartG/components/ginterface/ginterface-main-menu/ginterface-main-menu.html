@@ -1,0 +1,80 @@
+
+<link rel="import" href="../../../../ystest/polymer-ui-tabs/polymer-ui-tabs.html">
+<polymer-element name="ginterface-main-menu">
+	<template>
+	
+		<style>
+			@host {
+				* {
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				background-color: #f0f0f0;
+				color:#262626;  
+				}
+			}
+
+		
+	
+			#menus {
+				height: 36px;
+				
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+				background-color: #f0f0f0;
+				
+/* 				border:1px solid yellow; */
+	
+				-ms-flex-pack:center;
+				-ms-flex-align:center;
+				-moz-box-pack:center;
+				-moz-box-align:center;
+				-webkit-box-pack:center;
+				-webkit-box-align:center;
+				box-pack:center;
+				box-align:center;
+				
+	
+			}
+			
+			.menuItem{			
+/* 				border:1px solid black; */
+/* 				padding: 1px; */
+				width:116px;
+				height: 36px;
+				text-align: center;
+			}
+						
+			
+		</style>
+		
+		<div id="menus"> 
+		    <polymer-ui-tabs id="uitab" selected="0" multi="true">
+					<div class="menuItem">멤버</div>
+					<div class="menuItem">메일</div>
+					<div class="menuItem">공지/생일</div>
+					<div class="menuItem">할일/일정</div>
+					<div class="menuItem">문서</div>
+					<div class="menuItem">커뮤니티</div>
+		    </polymer-ui-tabs>
+		</div>
+		
+		
+	</template>
+	<script>
+		Polymer('ginterface-main-menu', {
+		
+			resetMenu : function(){
+				this.$.uitab.setSelectItems(0, menuColNum, false);
+				this.$.uitab.setSelectItems(prevMenuIndex, widgetNum, true);
+	
+				
+			}
+
+		});
+		
+		
+	</script>
+</element>

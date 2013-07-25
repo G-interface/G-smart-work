@@ -1,0 +1,164 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-birthday-view-item" attributes="who photo email day dday" on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+/* 		    display: block; */
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+		    font-size: 12px;
+		    
+			background-color: #ffffff;
+		  }
+		
+		}
+
+  
+/*
+
+
+		.item {
+
+		  border: 1px solid #ddd;
+		  height:64px;
+		  -webkit-box-sizing: border-box;
+		     -moz-box-sizing: border-box;
+		          box-sizing: border-box;
+		}
+		.clip {
+		  float:left;
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+		}
+		.cont {
+		  left: 5;
+		  height: 64px;
+		  margin: 3px;
+		  padding: 3px;
+  
+		}
+		
+					.container {
+			  display: -webkit-flex;
+			  display: flex;
+			}
+
+		
+			.initial {
+			  -webkit-flex: initial;
+			          flex: initial;
+			  width: 44px;
+			  min-width: 44px;
+			}
+			.none {
+			  -webkit-flex: none;
+			          flex: none;
+			  width: 50px;
+			}
+			.flex1 {
+			  -webkit-flex: 1;
+			          flex: 1;
+			}
+			.flex2 {
+			  -webkit-flex: 2;
+			          flex: 2;
+			}
+*/
+
+		.person {
+
+		  height:66px;
+
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+				border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+		}
+		
+		.clip {
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+/* 	padding: 10px; */
+		}
+		.photo{
+			
+			width: 44px;
+			height: 44px;
+			padding: 10px;
+/* 		  border: 0px solid red; */
+			
+		}			
+		.name{
+		
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			width:230px;
+			height: 44px;
+			//padding: 15px 10px 15px 10px;
+			color: #7f7f7f;
+/* 		  border: 0px solid pink; */
+			
+		}
+	  </style>
+		<div class="person">
+			<div id="clip" class="clip" ></div>
+				
+			<div class="photo">
+				<img src="{{photo}}" style="width:44px;height:44px">
+			</div>
+			
+			
+			<div class="name">
+				<div style="padding-top:24px;text-align:left; width:140px;">{{ who }} </div>
+				<div style="padding-top:2px;display:block;width:100px;" on-click="write"><div style="padding-top:10px;text-align:center;font-size:24px;font-weight:bold;color:#8914a0;">{{ day }}</div><div>{{ dday }}</div></div>
+			</div>
+		</div>
+  </template>	
+  <script>
+	  Polymer('gin-birthday-view-item', {
+  
+		  ready : function (){
+			  console.log("birthday what ; " + this.what);
+		  },
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#8914a0';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      },
+	  
+  
+  
+	  });
+  </script>
+</element>

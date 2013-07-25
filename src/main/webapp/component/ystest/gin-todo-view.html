@@ -1,0 +1,81 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="gin-widget-titlebar.html">
+<link rel="import" href="todomvc/components/td-app.html">
+
+
+<polymer-element name="gin-todo-view" >
+  <template>
+    
+  <link rel="stylesheet" href="todomvc/assets/base.css">
+  <!-- CSS overrides - remove if you don't need it -->
+  <link rel="stylesheet" href="todomvc/css/app.css">
+    <style>
+    	@host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+/* 	    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+	    /* size */
+	    height: 100%;
+	    font-size: 12px;
+/* 			overflow: hidden; */
+
+	  }	
+	}
+	 
+	  .titleff{
+	padding: 10px 10px 7px 13px;
+	background-color: #ffffff;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+/* 		   border: 1px  solid rgba(0, 0, 0, 0.28); */
+	}
+    </style>
+    <div>
+	    	<!-- 타이틀 바 -->
+	<!--     	<gin-widget-titlebar title="할일"></gin-widget-titlebar> -->
+		<div class="titleff">
+			<img src="images/title/todo_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding:10px;font-size:16px;font-weight:bold">할일</div>
+		</div>
+	    <div id="containergg">
+	
+	    	<!-- 컨텐츠 -->	    
+		    <td-app id="app" ></td-app>
+	    </div>
+    </div>
+  </template>
+  <script>
+  
+  Polymer('gin-todo-view', {
+		salutations: [
+		    { what: '에셋 플러스 오픈 일정', who: '정영수	', when:'6월 22일 11시 10분' },
+		    { what: '구글 앱스를 이용한 업무 혁신', who: '이봉춘', when:'6월 23일 19시 14분' },
+		    { what: '안드로이드 가이드입니다.', who: '한우람', when:'6월 24일 11시 40분' },
+		    { what: '[지인터페이스]장마기간 근무 복장 안내', who: '조재훈', when:'6월 25일 7시 56분' }
+		 ],
+		 setSize : function (widgetHeight){
+		 
+		 	widgetHeight = widgetHeight - 30;
+		 	console.log("todo widgetHeight777 : " + widgetHeight);
+			 this.$.containergg.style.height = (widgetHeight-0)+ "px";
+			 this.$.app.style.height = (widgetHeight-0)+ "px";
+			 this.$.app.setSize((widgetHeight-55));
+		 },
+	});
+  </script>
+</element>

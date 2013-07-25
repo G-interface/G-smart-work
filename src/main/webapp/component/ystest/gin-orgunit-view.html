@@ -1,0 +1,303 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="gin-widget-titlebar.html">
+<link rel="import" href="gin-orgunit-view-item.html">
+
+<link rel="import" href="polymer-ajax/polymer-ajax.html">
+<polymer-element name="gin-orgunit-view" >
+  <template>
+    
+    <style>
+    	@host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+	    /* size */
+	    height: 100%;
+	    font-size: 12px;
+				background-color: #ffffff;
+	  }	
+	}
+	
+	.container{
+		display:-moz-box; /* Firefox */
+		display:-webkit-box; /* Safari and Chrome */
+		display:-ms-flexbox; /* Internet Explorer 10 */
+		display:box;
+				background-color: #ffffff;
+				
+	}
+
+	
+
+/* search form 
+-------------------------------------- */
+.searchform {
+
+/* 		border: solid 1px #d2d2d2; */
+/* align:left; */
+		display:-moz-box; /* Firefox */
+		display:-webkit-box; /* Safari and Chrome */
+		display:-ms-flexbox; /* Internet Explorer 10 */
+		display:box;
+	
+}
+.searchform input {
+	/* font: normal 12px/100% Arial, Helvetica, sans-serif; */
+}
+.searchform .searchfield {
+	background: #fff;
+/* 	padding: 6px 15px 6px 3px; */
+	padding-left:10px;
+	height: 27px;
+	width: 265px;
+	border: solid 1px #bcbbbb;
+	outline: none;
+
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+/*
+
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+*/
+}
+/*
+
+.searchform .searchbutton {
+	margin-left: 5px;
+	color: #fff;
+	border: solid 1px #494949;
+	font-size: 11px;
+	height: 27px;
+	width: 27px;
+	text-shadow: 0 1px 1px rgba(0,0,0,.6);
+
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+
+	background: #5f5f5f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#9e9e9e), to(#454545));
+	background: -moz-linear-gradient(top,  #9e9e9e,  #454545);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); 
+	-ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); 
+	//background-image:url('images/search.png');
+}
+
+*/
+
+.searchform .searchbutton {
+
+	padding-top:5px;	
+/* 	padding: :5px; */
+	color: #fff;
+/* 	border: solid 1px #494949; */
+/* 	font-size: 11px; */
+	height: 17px;
+	width: 17px;
+	vertical-align: middle;
+	cursor:pointer;
+
+}
+
+
+.title{
+	padding: 10px 10px 10px 10px;
+	line-height:30px;
+	height:30px;
+	background-color: #ffffff;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+/* 		   border: 1px  solid rgba(0, 0, 0, 0.28); */
+}
+	
+	
+    </style>
+    
+    <div>
+    	<!-- 타이틀 바 -->
+<!--     	<gin-widget-titlebar title="조직"></gin-widget-titlebar> -->
+
+
+		<div class="title">
+			<img src="images/title/member_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding-left:10px;height:30px;font-size:16px;font-weight:bold">멤버</div>
+    		<div style="width:190px;height:30px;"></div>
+    		<div style="width:30px;height:30px;padding-top:5px;cursor:pointer;" on-click="writeMail"><img src="images/write.png"></div>
+		</div>
+    	<div style="height:32px;">
+    		<form class="searchform">
+    			<div style="width:10px;"></div>
+				<input id="searchfield" class="searchfield" type="search" value="Filter" onfocus="if (this.value == 'Filter') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Filter';}" />
+<!-- 				<input class="searchbutton" type="button" value=">" /> -->
+				<div style="width:5px;"></div>
+				<div style="height:27px;width:27px;">
+					<img class="searchbutton" src="images/search.png" on-click="searchMember">
+				</div>
+			</form>
+    	</div>
+    	<!-- 컨텐츠 -->	    
+	    <div id="containergg" loaded="{{loaded}}"  style="overflow:scroll;">
+			<content id="items" select="*"></content>
+	    </div>
+	    
+    </div>
+    
+    
+    	    <polymer-ajax id="ajaxComponent" url="http://gdata.youtube.com/feeds/api/videos/" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+    
+  </template>
+  <script>
+  
+  Polymer('gin-orgunit-view', {
+  		
+  		emailList:[],
+  		/*
+
+		ready : function(){
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+
+	          
+			  var 
+	      
+		     //var member = event.detail.response; 
+	      
+	          this.maker.setData(member);
+	        });
+	        ajax.go();
+		 
+		},
+		
+		
+*/
+		
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{
+	  			if(url==null)
+		  			ajax.url = "/member";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var member;
+		  		if(window.location.hostname == "localhost"){
+					member = [{"title":"nul","department":"nul","familyName":"지","givenName":"인터페이스","photo":"nul","primaryEmail":"admin@g-interface.com"},{"title":"nul","department":"nul","familyName":"이","givenName":"봉춘","photo":"/s2/photos/public/AIbEiAIAAABECOzXvr-A_vnXyAEiC3ZjYXJkX3Bob3RvKihkZDUxYzdhNTA5MDdkMDNmNDUxYmExNzc4ZGM1YTYxYTI4ODhmMTlmMAHp34eocKMeFdooMMfVxzGCuyDosw","primaryEmail":"bong@g-interface.com"},{"title":"nul","department":"nul","familyName":"이","givenName":"은지","photo":"/s2/photos/public/AIbEiAIAAABDCID7ktyb_tO5QSILdmNhcmRfcGhvdG8qKGYxYjZiYWVlNTkyZmY3YTEwNGM4NTZiMThkNjQ2OGVlODJjOTI0OTMwAe1e_WUbJWOo5-12sSz8N7s0lRfp","primaryEmail":"eunji@g-interface.com"},{"title":"nul","department":"nul","familyName":"한","givenName":"우람","photo":"/s2/photos/public/AIbEiAIAAABECKjsgJKe6K6TngEiC3ZjYXJkX3Bob3RvKihmODZhMmNkNTIwMjEwZTM0NTMzMTA3YTY1ZmRmOGM2MTRmMGRkNWMwMAE_HlbjP2qR8JNV9pCHHyu4kJRxgQ","primaryEmail":"hwr@g-interface.com"},{"title":"nul","department":"nul","familyName":"조","givenName":"재훈","photo":"/s2/photos/public/AIbEiAIAAABDCPOWn6fa8OKhQiILdmNhcmRfcGhvdG8qKGIwOGNlNjgzOTc3ZTRhOTRjNjcxNzkzM2VhZGZjZWZhNDk1MTQ0NDIwASO2CrM3iMGRk3Jw8apRs7zTnu5X","primaryEmail":"j@g-interface.com"},{"title":"nul","department":"nul","familyName":"박","givenName":"장훈","photo":"nul","primaryEmail":"jhpark@g-interface.com"},{"title":"nul","department":"nul","familyName":"이","givenName":"영규","photo":"/s2/photos/public/AIbEiAIAAABDCJXx-Ybe6szEVyILdmNhcmRfcGhvdG8qKDQxMDBmYzJkNzk4MmZmZmRjNGUwZGMwMWIxMmMyZTIwNzQ0Yjk5OWQwAXv6J456mQIW-C692bkoZXvCS2Bs","primaryEmail":"lyk1631@g-interface.com"},{"title":"nul","department":"nul","familyName":"김","givenName":"민중","photo":"nul","primaryEmail":"mjkim@g-interface.com"},{"title":"nul","department":"nul","familyName":"정","givenName":"영수","photo":"/s2/photos/public/AIbEiAIAAABDCIKqqMOkyv_vfCILdmNhcmRfcGhvdG8qKGU4YWU3MDUzZjFjNTdhMmM1YzM4M2NiZmJiNzc3YTIzNDZlZDgyNmMwASvuZ9cArXYUIc7-A4ht2xDDcB0I","primaryEmail":"she110ff@g-interface.com"}] ;		  		}
+		  		else{
+			  		member = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.setData(member);
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+		
+		
+		 setData : function(data){
+		 	this.removeChildren();
+			console.log("gin-orgunit-view > setData , data : ");
+			emailList = [];
+
+			for(var i=0; i<data.length; i++){
+				var member = document.createElement('gin-orgunit-view-item', 'x-foo-button');
+				this.$.items.appendChild(member);
+				member.who = data[i].familyName + data[i].givenName ;	
+				member.photo = data[i].photo;		
+				member.email = data[i].primaryEmail;
+				emailList.push(data[i].primaryEmail);
+			}
+
+		 },
+		 
+		 
+		 removeChildren : function(){
+
+			while(this.$.items.firstChild){
+				this.$.items.removeChild(this.$.items.firstChild);
+			}
+		 },
+		 
+		 
+		 setSize : function (widgetHeight){
+		 	widgetHeight = widgetHeight - 32;
+			this.$.containergg.style.height = widgetHeight+ "px";;
+		 },
+		 
+		 writeMail : function(){
+			 var list = emailList.join(",");
+			 writeEmail(list); 
+		 },
+		 
+		 searchMember : function(){
+			 var value = this.$.searchfield.value;
+			 if(value=="" || value=="Filter" || value==null)
+				 this.goAjax("/member", {"alt":"json"});
+			 else
+			 	this.goAjax("/search/member", {"alt":"json", "searchWord":value});
+		 }	
+	});
+	
+	
+			//var assert = chai.assert;
+/*
+		      document.addEventListener('WebComponentsReady', function() {
+		        var ajax = document.querySelector('polymer-ajax');
+		        ajax.addEventListener("polymer-response", function(event) {
+		          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+		          //done();
+		          console.log("ajax event : ");
+		        });
+		      });
+*/
+  </script>
+</element>

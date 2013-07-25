@@ -1,0 +1,153 @@
+
+
+<link rel="import" href="../../polymer-ajax/polymer-ajax.html">
+<polymer-element name="td-model" attributes="filter items data">
+<template>
+
+    	    <polymer-ajax id="ajaxComponent" url="http://gdata.youtube.com/feeds/api/videos/" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+</template>
+  <script>
+    Polymer('td-model', {
+      get data() {
+        return this;
+      },
+      /*
+
+      ready: function() {
+        this.items = [];
+        			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+	          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+	          //done();
+	          console.log("!!! ajax event : " + event.detail.response);
+
+	          
+	              var  oneItems = [
+
+        {id: "id",title: "titleK",taskId: "taskID",title: "전체 회의!",completed:true},
+        {id: "id",title: "titleL",taskId: "taskID",title: "영화 보기!",completed:true},
+        {id: "id",title: "titleK",taskId: "taskID",title: "당구 치기!",completed:true},
+        {id: "id",title: "titleK",taskId: "taskID",title: "복싱 연습!",completed:true},
+      ];
+	          
+	          
+	          
+	          
+	          this.maker.items = oneItems;
+	        });
+	        ajax.go();
+        
+        
+        
+      },
+*/
+
+
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{
+	  			if(url==null)
+		  			ajax.url = "/tasklists/tasks";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var task;
+		  		if(window.location.hostname == "localhost"){
+					task = [
+
+			        {id: "id",title: "titleK",taskId: "taskID",title: "전체 회의!",completed:true},
+			        {id: "id",title: "titleL",taskId: "taskID",title: "영화 보기!",completed:true},
+			        {id: "id",title: "titleK",taskId: "taskID",title: "당구 치기!",completed:true},
+			        {id: "id",title: "titleK",taskId: "taskID",title: "복싱 연습!",completed:true},
+			      ];
+	          
+		      
+		  		}else{
+			  		task = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.items = task;
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+
+
+
+      filterChanged: function() {
+        this.filterItems();
+      },
+      itemsChanged: function() {
+        this.completedCount =
+          this.items.filter(this.filters.completed).length;
+        this.activeCount = this.items.length - this.completedCount;
+        //console.warn("setting activeCount: ", this.activeCount);
+        this.filterItems();
+      },
+      filterItems: function() {
+        var fn = this.filters[this.filter];
+        this.filtered = fn ? this.items.filter(fn) : this.items;
+      },
+      newItem: function(inTitle) {
+        var title = String(inTitle).trim();
+        if (title) {
+          this.items.push({
+            id: this.items.length,
+            title: inTitle,
+            completed: false
+          });
+          this.itemsChanged();
+        }
+      },
+      destroyItem: function(inItem) {
+        var i = this.items.indexOf(inItem);
+        if (i >= 0) {
+          this.items.splice(i, 1);
+        }
+        this.itemsChanged();
+      },
+      clearItems: function( ){
+        this.items = this.items.filter(this.filters.active);
+      },
+      filters: {
+        active: function(inItem) {
+          return !inItem.completed;
+        },
+        completed: function(inItem) {
+          return inItem.completed;
+        }
+      }
+   });
+  </script>
+</element>

@@ -1,0 +1,125 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+  	<title> 스마트워크 </title>
+  
+	<script src="../polymer/polymer.js"></script>
+	
+	<!-- scripts here. Don't remove this ↓ -->
+	<script src="todomvc/assets/base.js"></script>
+	
+	
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+	<link rel="import" href="../toolkit-ui/elements/g-toolbar.html">
+	<link rel="import" href="../toolkit-ui/elements/g-menu-item.html">
+	<link rel="import" href="../toolkit-ui/elements/g-menu-button.html">
+	<link rel="import" href="../toolkit-ui/elements/g-icon-button.html">
+	<link rel="import" href="../toolkit-ui/elements/g-tabs.html">
+
+	<link rel="import" href="gin-gnb-view.html">	
+	<link rel="import" href="gin-mail-view.html">
+	<link rel="import" href="gin-orgunit-view.html">
+	
+	<link rel="import" href="gin-todo-view.html">
+  
+	
+	<style>
+		html, body {
+		  height: 100%;
+		  background-color: #f4f4f4;
+		  font-family: 돋음, Dotum, Baekmuk Dotum, Undotum, Apple Gothic, Latin font, sans-serif;
+		}
+		
+		body {
+		  margin: 0;
+		  font-size: 20px;
+		}
+		
+      .palette {
+		margin: 20px;
+        top: 0;
+        width: 360px;
+        height: 95%;
+        bottom: 0;        
+        z-index: 1;
+		  background-color: #ffffff;
+        border:1px solid rgba(0, 0, 0, 0.28);
+        box-shadow: 5px 0 8px rgba(0, 0, 0, 0.16);
+		  -webkit-box-sizing: border-box;
+		     -moz-box-sizing: border-box;
+		          box-sizing: border-box;
+      }	
+	  </style>
+	
+  </head>
+  <body>
+  
+	<polymer-layout vertical></polymer-layout>
+	
+	<!-- GNB -->
+	<gin-gnb-view></gin-gnb-view>
+	
+	
+	
+	<!-- CONTENT -->
+	<div fit>
+		<polymer-layout></polymer-layout>
+		<div fit>
+			<polymer-layout></polymer-layout>
+			<div style="display:none">
+			    <div class="palette">
+			    <gin-orgunit-view></gin-orgunit-view>
+			    </div>
+		    </div>
+			<div>
+			    <div class="palette">
+					<gin-mail-view></gin-mail-view>
+			    </div>
+			</div>
+			<div>
+			    <div class="palette">
+					<gin-todo-view></gin-todo-view>
+			    </div>
+			</div>
+		</div>
+		<div>.</div>
+	</div>
+	
+	<!-- FOOTER -->
+	<div>.</div>
+	
+	
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,169 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="gin-widget-titlebar.html">
+<link rel="import" href="gin-notice-view-item.html">
+
+<link rel="import" href="polymer-ajax/polymer-ajax.html">
+<polymer-element name="gin-notice-view" >
+  <template>
+    
+    <style>
+    	@host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+	    /* size */
+	    height: 100%;
+	    font-size: 12px;
+	    
+/* 		   border: 1px  solid red; */
+
+	  }	
+	 }
+	  
+	  .titleff{
+	padding: 10px 10px 7px 13px;
+	background-color: #ffffff;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+/* 		   border: 1px  solid rgba(0, 0, 0, 0.28); */
+}
+	
+	}
+    </style>
+    
+    <div style="overflow:hidden;">
+    	<!-- 타이틀 바 -->
+    	<div class="titleff">
+			<img src="images/title/notice_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding:8px;font-size:16px;font-weight:bold">공지</div>
+		</div>
+
+    	<!-- 컨텐츠 -->	    
+	    <div id="containergg" loaded="{{loaded}}" style="overflow-y:scroll;overflow-x:hidden;">
+
+	    </div>
+    </div>
+    
+    
+    	    <polymer-ajax id="ajaxComponent" url="http://gdata.youtube.com/feeds/api/videos/" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+    
+  </template>
+  <script>
+  
+  Polymer('gin-notice-view', {
+/*
+ready : function(){
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+	          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+	          //done();
+	          //alert("!!! ajax event : ");
+	           
+		      var 
+		     
+		     //var calendar = event.detail.response;
+
+	          this.maker.setData(notice);
+	        });
+	        ajax.go();
+		 
+		},
+		
+		
+*/
+		
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{	
+	  			if(url==null)
+		  			ajax.url = "/notice";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var notice;
+		  		if(window.location.hostname == "localhost"){
+					notice = [{id:"id1", title: "G-interface (페이스북, 구글플러스) 링크주소",contents:"안녕하세요.<br>모두 바쁜 한 주를 보내고 계시지요.	<br> ddd -kkk 1234dd ddd<br>dfsdsl<br>ddddd<br>dfsdsl<br>",writer: "정영수",createDate: "20130713123456",modifyDate: "modifyDate"},{id:"id1", title: "7월 20일 워크샵",contents:"안녕하세요.<br>모두 바쁜 한 주를 보내고 계시지요.	<br>1234ddddd<br>dfsdsl<br>ddddd<br>dfsdsl<br>",writer: "정영수",createDate: "20130713123456",modifyDate: "modifyDate"},{id:"id1", title: "7월 20일 워크샵",contents:"안녕하세요.<br>모두 바쁜 한 주를 보내고 계시지요.	<br>1234ddddd<br>dfsdsl<br>ddddd<br>dfsdsl<br>",writer: "정영수",createDate: "20130713123456",modifyDate: "modifyDate"},{id:"id1", title: "7월 20일 워크샵",contents:"안녕하세요.<br>모두 바쁜 한 주를 보내고 계시지요.	<br>1234ddddd<br>dfsdsl<br>ddddd<br>dfsdsl<br>",writer: "정영수",createDate: "20130713123456",modifyDate: "modifyDate"}];
+		  		}else{
+			  		notice = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.setData(notice);
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+		
+		
+		 setData : function(data){
+		 
+			 for(var i=0; i<data.length; i++){
+				 var notice = document.createElement('gin-notice-view-item');
+				 console.log("gin-notice-view > setData , data[i].summary : " + data[i].summary);
+	
+				 notice.what = data[i].title;	
+				 notice.content = data[i].contents;
+				 var when = data[i].createDate.substr(0, 4) + "." + data[i].createDate.substr(4,2) + "." + data[i].createDate.substr(6, 2);		
+				 notice.when = when;	
+				 notice.who = data[i].writer;	
+				 notice.addContent(data[i].contents);
+				 this.$.containergg.appendChild(notice);
+				 
+			 }
+
+			 //console.log("gin-mail-view > setData , data : " + data);
+		 },
+		 
+		 setSize : function (widgetHeight){
+		 	widgetHeight = widgetHeight - 30;
+			 this.$.containergg.style.height = widgetHeight+ "px";;
+		 }
+	});
+  </script>
+</element>

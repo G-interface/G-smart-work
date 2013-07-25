@@ -1,0 +1,112 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-community-view-item" attributes="what photo linkurl" on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+		    display: block;
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    //border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+/* 		    padding: 5px; */
+		    font-size: 12px;
+			background-color: #ffffff;
+		  }
+		
+		}
+
+
+
+		.person {
+
+		  height:128px;
+
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+		   border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+		}
+		
+		.clip {
+		  width: 3px;
+		  height:128px;
+		  background-color:white;
+/* 	padding: 10px; */
+		}
+		.photo{
+			
+		   padding: 10px 13px 10px 13px;
+/* 			padding: 10px; */
+/* 		  border: 1px solid red; */
+			
+		}			
+		.name{
+			
+			padding: 58px 10px 58px 10px;
+			color: #7f7f7f;
+/* 		  border: 1px solid pink; */
+			
+		}
+		
+		a:link {text-decoration: none; color: #7f7f7f;}
+		a:visited {text-decoration: none; color: #7f7f7f;}
+		a:active {text-decoration: none; color: #7f7f7f;}
+		a:hover {text-decoration: none; color: #7f7f7f;}
+
+		
+	  </style>
+	  
+	  <a href="{{linkurl}}" target="_blank">
+		<div class="person">
+			<div id="clip" class="clip" ></div>
+				
+			<div class="photo">
+				<img src="{{photo}}" style="width:108px;height:108px">
+			</div>
+			
+			
+			<div class="name">
+				<div style="text-align:center;">{{ what }} </div>
+			</div>
+		</div>
+	  </a>
+  </template>	
+  <script>
+	  Polymer('gin-community-view-item', {
+  
+  
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#ff3838';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      }
+  
+  
+	  });
+  </script>
+</element>

@@ -1,0 +1,145 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-calendar-view-item" attributes="what when dday linkurl" on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+/* 		    display: block; */
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+		    font-size: 12px;
+		    
+			background-color: #ffffff;
+		  }
+		
+		}
+
+    
+		.item {
+			background-color: #ffffff;
+		    height: 64px;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+		   border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+/* 			border:1px solid black; */
+		}
+		.clip {
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+		}
+		.cont {
+/* 		  padding: 0px 0px 0px 3px; */
+			padding: 7px 13px 0px 13px;
+  
+		}
+		
+		.mailContent{
+			display: block;
+			width:220px;
+			padding-top: 7px;
+/* 			border:1px solid black; */
+			
+		}
+		
+		.dday
+		{
+			width:62px;
+			text-align:center;
+			padding-top: 29px;
+			color: #7f7f7f;
+			font-weight:bold;
+			font-size:13px;
+/* 			border:1px solid red; */
+		}
+		
+		.when
+		{
+
+			width:220px;
+			text-align:left;
+			color: #7f7f7f;
+			padding-top:7px;
+/* 			border:1px solid blue; */
+		}
+		
+		.what{
+		
+			max-width:290px;
+			max-height:16px;
+
+      overflow: hidden;
+      text-overflow:ellipsis;
+
+			font-weight:bold;
+			font-size:13px;
+			text-align:left;
+			color: black;
+			padding: 2px 0px 0px 0px;
+			
+/* 			border: 1px solid yellow; */
+
+		}
+
+		a:link {text-decoration: none; color: #7f7f7f;}
+		a:visited {text-decoration: none; color: #7f7f7f;}
+		a:active {text-decoration: none; color: #7f7f7f;}
+		a:hover {text-decoration: none; color: #7f7f7f;}
+
+
+	  </style>
+	  <a href="{{linkurl}}" target="_blank">
+		<div class="item">
+			<div id="clip" class="clip" ></div>
+			<div class="cont">
+				<div class="mailContent">
+					<div class="what">{{ what }}</div>
+					<div class="when" >{{when}}</div> 
+				</div>
+				
+			</div>
+				<div class="dday">D - {{ dday }}</div>
+		</div>
+	  </a>
+  </template>	
+  <script>
+	  Polymer('gin-calendar-view-item', {
+  
+  
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#418d01';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      }
+  
+  
+	  });
+  </script>
+</element>

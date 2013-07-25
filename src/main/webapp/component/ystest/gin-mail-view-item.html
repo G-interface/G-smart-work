@@ -1,0 +1,138 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-mail-view-item" attributes="what who when emailLink" on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+/* 		    display: block; */
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+		    font-size: 12px;
+		    
+			background-color: #f9f9f9;
+		  }
+		
+		}
+
+    
+		.item {
+			background-color: #f9f9f9;
+			width: 322px;
+		    height: 64px;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+		   border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+/* 			border:1px solid black; */
+		}
+		.clip {
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+		}
+		.cont {
+/* 		  padding: 0px 0px 0px 3px; */
+			padding: 7px 13px 0px 13px;
+  
+		}
+		
+		.mailContent{
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+/* 			width:300px; */
+/* 			border:1px solid black; */
+			
+		}
+		
+		.who
+		{
+width:162px;
+		text-align:left;
+			color: #7f7f7f;
+
+/* 		border:1px solid red; */
+		}
+		
+		.when
+		{
+
+width:132px;
+		text-align:right;
+			color: #7f7f7f;
+
+/* 		border:1px solid blue; */
+		}
+		
+		.what{
+		
+/* 			width:294px; */
+			text-align:left;
+			color: #7f7f7f;
+			padding: 4px 0px 0px 0px;
+			
+/* 			border: 1px solid yellow; */
+
+		}
+
+		a:link {text-decoration: none; color: #7f7f7f;}
+		a:visited {text-decoration: none; color: #7f7f7f;}
+		a:active {text-decoration: none; color: #7f7f7f;}
+		a:hover {text-decoration: none; color: #7f7f7f;}
+
+
+	  </style>
+	  <a href="{{emailLink}}" target="_blank">
+		<div class="item" style="background-color:{{bgcolor}}">
+			<div id="clip" class="clip" ></div>
+			<div class="cont">
+				<div class="mailContent">
+					<div class="who" style="color:{{color}};">{{ who }}</div>
+					<div class="when"  style="color:{{color}};">{{when}}</div>
+				</div>
+				<div class="what" style="font-weight:{{fontbold}};font-size:{{fontsize}};color:{{color}}">{{ what }}</div>
+			</div>
+		</div>
+	  </a>
+  </template>	
+  <script>
+	  Polymer('gin-mail-view-item', {
+  
+  
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#ff3838';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      }
+  
+  
+	  });
+  </script>
+</element>

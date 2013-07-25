@@ -1,0 +1,77 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-birthday-view-month" attributes="when" >
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+		    display: block;
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+		    font-size: 12px;
+		    
+			background-color: #ffffff;
+		  }
+		
+		}
+
+    
+
+		#noticeContent {
+			height:10px;
+			padding: 10px;
+/* 			width:100px; */
+/* 			display:block;  */
+			background-color:#f9f9f9;
+		}
+		
+
+
+
+	  </style>
+	  <div>
+		<div id="noticeContent"  on-click="showContent">
+			{{when}}월
+		</div>
+		<div id="dayContainer">
+			<shadow></shadow>
+		</div>
+	  </div>
+  </template>	
+  <script>
+	  Polymer('gin-birthday-view-month', {
+  
+		  ready : function (){
+		  		this.$.noticeContent.showing = true;
+			  //console.log("birthday-view-month >  when ; " + this.when);
+		  },
+	      
+	      showContent : function(){
+	      	console.log("gin-birth-view-month > showContent : " + !this.$.noticeContent.showing);
+	      	this.$.noticeContent.showing = !this.$.noticeContent.showing;
+		    //this.$.noticeContent.style.display = this.$.noticeContent.showing == true ? "block" : "none";
+		      
+		      //this.$.noticeContent.setAttribute('showing', !this.$.noticeContent.showing);
+			 this.$.dayContainer.style.display = this.$.noticeContent.showing == true ? "block" : "none";
+	      },
+	      
+	  
+  
+  
+	  });
+  </script>
+</element>

@@ -1,0 +1,112 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-orgunit-view-item" attributes="who email team position photo" on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+		    display: block;
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    //border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+/* 		    height: 64px; */
+/* 		    padding: 5px; */
+		    font-size: 12px;
+			background-color: #ffffff;
+		  }
+		
+		}
+
+		.person {
+
+		  height:64px;
+
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+				border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+				
+/* 		  border: 1px solid pink; */
+		}
+		
+		.clip {
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+/* 	padding: 10px; */
+		}
+		.photo{
+			
+			width: 44px;
+			height: 44px;
+			padding: 10px;
+/* 		  border: 0px solid red; */
+			
+		}			
+		.name{
+			height: 44px;
+			padding: 15px 10px 15px 10px;
+			color: #7f7f7f;
+/* 		  border: 0px solid pink; */
+			
+		}
+		
+		
+	  </style>
+	  
+		<div class="person">
+			<div id="clip" class="clip" ></div>
+				
+			<div class="photo">
+				<img src="{{photo}}" style="width:44px;height:44px">
+			</div>
+			
+			
+			<div class="name">
+				<div style="padding:2px;text-align:left;">{{ who }} </div>
+				<div style="padding:2px;text-align:left;" on-click="write">{{ email }} </div>
+			</div>
+		</div>
+  </template>	
+  <script>
+	  Polymer('gin-orgunit-view-item', {
+  
+  
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#0097de';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      },
+	      write : function(){
+		      console.log("email on click");
+		      writeEmail(this.email); 
+	      }
+  
+  
+	  });
+  </script>
+</element>

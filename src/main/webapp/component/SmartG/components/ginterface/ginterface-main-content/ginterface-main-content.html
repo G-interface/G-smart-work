@@ -1,0 +1,118 @@
+
+<link rel="import" href="../../../../polymer-elements/polymer-layout/polymer-layout.html">
+<link rel="import" href="../../ginterface/ginterface-main-menu/ginterface-main-menu.html">
+<link rel="import" href="../../ginterface/ginterface-main-widget/ginterface-main-widget.html">
+<polymer-element name="ginterface-main-content">
+	<template>
+		
+		<style>
+			@host {
+				* {
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				background-color: #f0f0f0;
+				color:#262626;  
+				}
+			}
+
+		
+			
+	
+			#containerCCContent {
+
+/*
+				height: 100%;
+				min-height:100%;
+*/
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+				background-color: #f0f0f0;
+				
+/* 				border:1px solid black; */
+	/*
+
+				-ms-flex-pack:center;
+				-ms-flex-align:center;
+				-moz-box-pack:center;
+				-moz-box-align:center;
+				-webkit-box-pack:center;
+				-webkit-box-align:center;
+				box-pack:center;
+				box-align:center;
+				
+	
+				-webkit-box-orient:vertical;			
+				box-orient:vertical;
+*/
+			}
+			
+			#widgetConatiner{
+				padding: 22px;
+				background-color: #e5e5e5;
+			}
+			
+						
+			
+		</style>
+		
+
+			<div id="menuContainer">
+				<ginterface-main-menu id="mainMenu"></ginterface-main-menu>
+			</div>
+			<div id="widgetConatiner">
+				<ginterface-main-widget id="mainWidget"></ginterface-main-widget>
+			</div>
+
+		
+	</template>
+	<script>
+		Polymer('ginterface-main-content', {
+			setWidgetsVisible : function(sender, data){
+			    this.$.mainWidget.setWidgetsVisible(this, data);
+			    
+			},
+			resetWidgets : function(){	
+				console.log("ginterface-main-content , widgetNum : " + widgetNum);
+				
+			    this.setWidgetsVisible(this, {start:prevMenuIndex, num:widgetNum});
+			    this.$.mainMenu.resetMenu();
+    
+			},
+			resetSize : function(widgetHeight){
+				this.$.mainWidget.style.height = widgetHeight + "px";
+				console.log("ginterface-main-content > resetSize , widgetHeight : " + widgetHeight);
+				this.$.mainWidget.resetSize(widgetHeight);
+			},
+			
+			setData : function(data){
+				this.$.mainWidget.setData(data);
+			}
+		});
+	</script>
+</element>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

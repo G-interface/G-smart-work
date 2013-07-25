@@ -1,0 +1,270 @@
+
+
+<link rel="import" href="../../../../ystest/gin-orgunit-view.html">
+<link rel="import" href="../../../../ystest/gin-mail-view.html">
+<link rel="import" href="../../../../ystest/gin-drive-view.html">
+<link rel="import" href="../../../../ystest/gin-calendar-view.html">
+<link rel="import" href="../../../../ystest/gin-todo-view.html">
+<link rel="import" href="../../../../ystest/gin-community-view.html">
+<link rel="import" href="../../../../ystest/gin-notice-view.html">
+<link rel="import" href="../../../../ystest/gin-birthday-view.html">
+
+<polymer-element name="ginterface-main-widget">
+	<template>
+		
+		<style>
+
+		
+	
+			#containerWidget {
+
+
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+/* 				background-color: #f0f0f0; */
+				
+/* 				border:2px solid blue; */
+	
+				-ms-flex-pack:center;
+/* 				-ms-flex-align:center; */
+				-moz-box-pack:center;
+/* 				-moz-box-align:center; */
+				-webkit-box-pack:center;
+/* 				-webkit-box-align:center; */
+				box-pack:center;
+/* 				box-align:center; */
+				
+	
+				-ms-box-orient:horizontal;	
+				-moz-box-orient:horizontal;		
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+
+			}
+			
+			.widget-item{			
+/* 				border:2px solid black; */
+/* 				background-color: #f0f0f0; */
+				background-color: #e5e5e5;
+/* 				border: 0px 22px 0px 0px; */
+				margin: 0px 11px 0px 11px;
+				width:320px;
+				text-align: center;
+				
+			}
+
+			.widget-itemsssss{			
+/* 				border:2px solid black; */
+/* 				background-color: #f0f0f0; */
+				background-color: #ffffff;
+/* 				border: 0px 22px 0px 0px; */
+				width:320px;
+				text-align: center;
+				
+			}
+			
+			.txsd{
+				left : 2000px;
+			}
+				
+					
+		</style>
+<!-- 		<div> -->
+			<div id="containerWidget"> 
+				<!-- 멤버, 메일, 공지사항/생일, 할일/일정, 문서, 커뮤니티		 -->
+				<div id="widget0" class="widget-item txsd"><!-- <img src="images/member.png" > 멤버--><div style="background-color:#ffffff;"><gin-orgunit-view id="ginOrgUnitView"></gin-orgunit-view> </div></div>
+				<div id="widget1" class="widget-item txsd"><!-- <img src="images/mail.png" > 메일--><div style="background-color:#ffffff;"><gin-mail-view id="ginMailView"></</gin-mail-view></div></div>
+				<div id="widget2" class="widget-item txsd"><!-- <img src="images/notice.png" > --><!-- <div style="background-color:#ffffff;">공지사항/생일</div> -->
+					<div id="widget21" class="widget-itemsssss" ><div style="background-color:#ffffff;"><gin-notice-view id="ginNoticeView"></gin-notice-view></div></div>
+					<div style="height:22px;background-color:#e5e5e5;"></div>
+					<div id="widget22" class="widget-itemsssss" ><div style="background-color:#ffffff;"><gin-birthday-view id="ginBirthdayView"></gin-birthday-view></div></div>
+				</div>
+				<div id="widget3" class="widget-item txsd">
+					<div id="widget31" class="widget-itemsssss" ><div style="background-color:#ffffff;"><gin-todo-view id="ginTodoView"></gin-todo-view></div></div>
+					<div style="height:22px;background-color:#e5e5e5;"></div>
+					<div id="widget32" class="widget-itemsssss" ><div style="background-color:#ffffff;"><gin-calendar-view id="ginCalendarView"></gin-calendar-view></div></div>
+				</div>
+				<div id="widget4" class="widget-item txsd" ><!-- <img src="images/drive.png" > --><div style="background-color:#ffffff;"><gin-drive-view id="ginDriveVeiw"></gin-drive-view></div></div>
+				<div id="widget5" class="widget-item txsd" ><!-- <img src="images/community.png" > --><div style="background-color:#ffffff;"><gin-community-view id="ginCommunityView"></gin-community-view></div></div>
+			</div>
+<!-- 		</div> -->
+	</template>
+	<script>
+		Polymer('ginterface-main-widget', {
+		
+			setWidgetsVisible : function(sender, data){
+				this.setSelectItems(0,menuColNum,"none");
+
+				
+/* 				console.log("ginterface-main-widget > setWidgetsVisible , start : " + data.start + ", num : " + data.num); */
+				this.setSelectItems(data.start,data.num,"block");
+				
+			},
+			
+			animation : function(widget, value, dalay){
+				console.log("animation value : " + value);
+			  document.timeline.play(new SeqGroup([
+/*
+			    new ParGroup([
+			      new Animation(widget, {height: "0px"}, {duration: duration}),
+
+			    ]),
+*/
+				/* var tvalue = "translate("+value+")"; */
+
+/* 			    new MediaReference(video, {startDelay: -duration}), */
+			    new ParGroup(
+			    	[
+/* 						new Animation(widget, [{"transform": "translate(2000px)"},{"transform": "translate("+value+")"}], 0.5), */
+//						new Animation(elem, { display: 'none' }),
+/* 						new Animation(widget, [{'width': '10px'}], 0.8), */
+						new Animation(widget, [{left: '500px'}], 0.5),
+					], 
+					{startDelay: 0}
+			    ),
+/*
+			    new ParGroup(
+			    	[
+						//new Animation(widget, [{left: '107px'}, {left: '500px'}], 0.5),
+//						new Animation(widget, [{"width": "0px"}], 0.3),
+						new Animation(widget, { display: value }),
+						
+						
+						//
+					], 
+					{startDelay: dalay}
+			    ),
+*/
+			  ]));
+			  //alert("end animation!!!");
+				
+			},
+			
+			
+			setSelectItems : function(start, num, value){
+				
+
+			  for(var i=start; i<(start+num);i++){
+/* 			  for(var i=0; i<6;i++){ */
+				  var wname = 'widget' + i;
+				  var widget = this.$[wname];
+				  widget.style.display = value;
+				  
+		/*
+		var aniWidget;
+					if(i==0){
+						aniWidget = this.$.ginOrgUnitView;
+					}
+					else if(i==1){
+						aniWidget = this.$.ginMailView;
+					}
+					else if(i==2){
+						aniWidget = this.$.ginDriveVeiw;
+					}
+					else if(i==3){
+						aniWidget = this.$.ginTodoView;
+					}
+					else if(i==4){					
+						aniWidget = this.$.ginCalendarView;
+					}
+					else if(i==5){					
+						aniWidget = this.$.ginCommunityView;
+					}
+					else{
+					
+					}
+				
+*/
+/*
+				if(value=="none"){
+					this.animation(widget, value,  0);
+				}
+				
+				else{
+					this.animation(widget, i*20,  i*0.1);
+				}
+*/
+
+				 console.log( "setSelectItems[" +i + "] value : " + value);
+			  }
+			  
+			  //this.animation(this.$.widget0);
+			  //this.animation(this.$.widget1);
+			  //this.$.widget0.style.display = "none";
+			},
+			
+/* 			 */
+			
+			resetSize : function( widgetHeight ){
+				var titleHeight = 64;
+				var padddingTop = 22;
+				var paddingBottom = 22;
+				var itHeight = widgetHeight - padddingTop - paddingBottom;
+				this.widgetHeight = itHeight;
+				var containerggHeight = itHeight -  titleHeight;
+				console.log("containerWidget height : " + itHeight);
+				this.$.containerWidget.style.height = itHeight;
+			
+				 for(var i=0; i<menuColNum;i++){
+				  var wname = 'widget' + i;
+				  var widget = this.$[wname];
+
+					if(i==0){
+						this.$.ginOrgUnitView.setSize(containerggHeight);
+					}
+					else if(i==1){
+						this.$.ginMailView.setSize(containerggHeight);
+					}
+					else if(i==2){
+						var cHeight = (containerggHeight -padddingTop+4 ) /2;
+						this.$.ginNoticeView.setSize(cHeight);
+						this.$.ginBirthdayView.setSize(cHeight);
+					}
+					else if(i==3){	
+						var cHeight = (containerggHeight -padddingTop ) /2;
+						this.$.ginTodoView.setSize(cHeight);
+						this.$.ginCalendarView.setSize(cHeight);
+					}
+					else if(i==4){					
+						this.$.ginDriveVeiw.setSize(containerggHeight);
+					}
+					else if(i==5){					
+						this.$.ginCommunityView.setSize(containerggHeight);
+					}
+					else{
+					
+					}
+					
+					
+					widget.style.height = itHeight + "px";
+				}
+			},
+			
+			setData : function(data){
+				this.$.ginOrgUnitView.setData(data);
+			}
+				
+		});
+	</script>
+</element>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

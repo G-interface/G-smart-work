@@ -1,0 +1,191 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="gin-widget-titlebar.html">
+<link rel="import" href="gin-calendar-view-item.html">
+
+<link rel="import" href="polymer-ajax/polymer-ajax.html">
+<polymer-element name="gin-calendar-view" >
+  <template>
+    
+    <style>
+    	@host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+	    /* size */
+	    height: 100%;
+	    font-size: 12px;
+	    
+/* 		   border: 1px  solid red; */
+
+	  }	
+	 }
+	  
+	  .title{
+	padding: 10px 10px 10px 10px;
+	line-height:30px;
+	height:30px;
+	background-color: #ffffff;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+/* 		   border: 1px  solid rgba(0, 0, 0, 0.28); */
+}
+
+
+	
+	}
+    </style>
+    
+    <div style="overflow:hidden;">
+    	<!-- 타이틀 바 -->
+<!--
+    	<div class="titleff">
+			<img src="images/title/calendar_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding:10px;font-size:16px;font-weight:bold">일정</div>
+		</div>
+-->
+
+		<div class="title">
+			<img src="images/title/calendar_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding-left:10px;height:30px;font-size:16px;font-weight:bold">일정</div>
+    		<div style="width:150px;height:30px;"></div>
+    		<div style="width:50px;height:30px;"></div>
+    		<div style="width:30px;height:30px;padding-top:5px;" ><a href="https://www.google.com/calendar/render" target="_blank"><img src="images/home.png"></a></div>
+		</div>
+		
+
+    	<!-- 컨텐츠 -->	    
+	    <div id="containergg" loaded="{{loaded}}" style="overflow-y:scroll;overflow-x:hidden;">
+
+	    </div>
+    </div>
+    
+    
+    	    <polymer-ajax id="ajaxComponent" url="http://gdata.youtube.com/feeds/api/videos/" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+    
+  </template>
+  <script>
+  
+  Polymer('gin-calendar-view', {
+/*
+	  
+	  ready : function(){
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+	          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+	          //done();
+	          //alert("!!! ajax event : ");
+	           
+		      var 
+		      
+		     //var calendar = event.detail.response; 
+
+	          this.maker.setData(calendar);
+	        });
+	        ajax.go();
+		 
+		},
+		
+*/
+		
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{
+	  			if(url==null)
+		  			ajax.url = "/schedule";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var calendar;
+		  		if(window.location.hostname == "localhost"){
+					calendar = [{summary: "Back_화면설계,기능정의(커뮤니티,일정)",creatorDisplayName: "정영수",startDate: "20130713123456",endDate: "endDate",endDay: "화요일",startDay:"화요일",dday: "1",htmlLink: "www.g-interface.com"},{summary: "일정2",creatorDisplayName: "정영수",startDate: "7월 5일 (화) 오후 1:00 ~ 오후 5:30",endDate: "endDate",endDay: "화요일",startDay:"화요일",dday: "1",htmlLink: "www.g-interface.com"},{summary: "일정3",creatorDisplayName: "정영수",startDate: "7월 5일 (화) 오후 1:00 ~ 오후 5:30",endDate: "endDate",endDay: "화요일",startDay:"화요일",dday: "1",htmlLink: "www.g-interface.com"},{summary: "일정4",creatorDisplayName: "정영수",startDate: "7월 5일 (화) 오후 1:00 ~ 오후 5:30",endDate: "endDate",endDay: "화요일",startDay:"화요일",dday: "1",htmlLink: "www.g-interface.com"}];
+		      
+		  		}else{
+			  		calendar = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.setData(calendar);
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+		
+		
+		 setData : function(data){
+		 
+			 for(var i=0; i<data.length; i++){
+				 var calendar = document.createElement('gin-calendar-view-item', 'x-foo-button');
+				 this.$.containergg.appendChild(calendar);
+				 console.log("gin-calendar-view > setData , data[i].summary : " + data[i].summary);
+				 //"7월 5일 (화) 오후 1:00 ~ 오후 5:30"
+				 calendar.dday = data[i].dday;	
+				 calendar.what = data[i].summary;	
+				 var date = data[i].startDate;
+				 var month = date.substr(4, 2);
+				 var day = date.substr(6,2);
+				 var hour = date.substr(8, 2);
+				 var miniute = date.substr(10,2);
+				 var second = date.substr(12,2);
+				 var when = data[i].startDate.substr(0, 4) + "." + data[i].startDate.substr(4,2) + "." + data[i].startDate.substr(6, 2);	
+				 calendar.when = when;	
+				 calendar.linkurl = data[i].htmlLink;	
+				 
+				 
+			 }
+
+			 //console.log("gin-mail-view > setData , data : " + data);
+		 },
+		 
+		 setSize : function (widgetHeight){
+		 	widgetHeight = widgetHeight - 30;
+			 this.$.containergg.style.height = widgetHeight+ "px";;
+		 }
+	});
+  </script>
+</element>

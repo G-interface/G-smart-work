@@ -1,0 +1,186 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-notice-view-item" attributes="who when what contents" on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+/* 		    display: block; */
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+		    font-size: 12px;
+		    
+			background-color: #ffffff;
+		  }
+		
+		}
+
+    
+		.item {
+			background-color: #ffffff;
+		    height: 64px;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+				border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+/* 			border:1px solid black; */
+		}
+		.clip {
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+		}
+		.cont {
+/* 		  padding: 0px 0px 0px 3px; */
+			padding: 7px 13px 0px 13px;
+  
+		}
+		
+		.mailContent{
+			display: block;
+			width:220px;
+			padding-top: 7px;
+/* 			border:1px solid black; */
+			
+		}
+		
+		.dday
+		{
+			width:62px;
+			text-align:center;
+			padding-top: 29px;
+			color: #7f7f7f;
+			font-weight:bold;
+			font-size:13px;
+/* 			border:1px solid red; */
+		}
+		
+		.when
+		{
+
+			width:220px;
+			text-align:left;
+			color: #7f7f7f;
+			padding-top:7px;
+/* 			border:1px solid blue; */
+		}
+		
+		.what{
+		
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		
+			max-width:294px;
+			max-height:16px;
+      overflow: hidden;
+      text-overflow:ellipsis;
+	-webkit-line-clamp: 1; /* 라인수 */
+			font-weight:bold;
+			font-size:14px;
+			text-align:left;
+			color: black;
+			padding: 2px 0px 0px 0px;
+			
+/* 			border: 1px solid yellow; */
+
+		}
+
+		#noticeContent {
+/* 			height:30px; */
+/* 			width:100px; */
+			padding: 5px;
+			text-indent:4px;
+			text-align:left;
+			display:none; 
+			background-color:#f9f9f9;
+			color:#7f7f7f;
+
+		}
+		
+		
+/*
+		#noticeContent [showing=true] {
+			display:block;
+			height:30px;
+			width:100px;
+			background-color:red;
+		}
+*/
+
+
+		a:link {text-decoration: none; color: #7f7f7f;}
+		a:visited {text-decoration: none; color: #7f7f7f;}
+		a:active {text-decoration: none; color: #7f7f7f;}
+		a:hover {text-decoration: none; color: #7f7f7f;}
+
+
+	  </style>
+	  <div on-click="showContent">
+		<div class="item">
+			<div id="clip" class="clip" ></div>
+			<div class="cont">
+				<div class="mailContent">
+					<div class="what">{{ what }}</div>
+					<div class="when" >{{when}}</div> 
+				</div>
+				
+			</div>
+		</div>
+		<div id="noticeContent">
+<!-- 			{{content}} -->
+		</div>
+	  </div>
+  </template>	
+  <script>
+	  Polymer('gin-notice-view-item', {
+  
+  
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#418d01';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      },
+	      
+	      showContent : function(){
+	      	console.log("showContent rr: " + !this.$.noticeContent.showing);
+	      	this.$.noticeContent.showing = !this.$.noticeContent.showing;
+		      this.$.noticeContent.style.display = this.$.noticeContent.showing == true ? "block" : "none";
+		      
+		      //this.$.noticeContent.setAttribute('showing', !this.$.noticeContent.showing);
+	      },
+	      addContent : function(data){
+		      $(this.$.noticeContent).append(data);
+	      }
+  
+  
+	  });
+  </script>
+</element>

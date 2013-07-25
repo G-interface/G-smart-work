@@ -1,0 +1,165 @@
+
+
+<!--
+/*
+ * Copyright 2013 The G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+	<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<polymer-element name="gin-drive-view-item" attributes="what who when shared parentsTitle alternateLink iconLink " on-mouseover="mouseover" on-mouseout="mouseout">
+  <template>
+  		<style>
+		
+		@host {
+		  * {
+		    /* technical */
+/* 		    display: block; */
+		    box-sizing: border-box;
+		    -moz-box-sizing: border-box;
+		    /* border/shadow */
+/* 		    border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+		    /* size */
+		    font-size: 12px;
+		    
+			background-color: #ffffff;
+		  }
+		
+		}
+
+    
+		.item {
+			background-color: #ffffff;
+		    height: 64px;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+				
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+		   border-bottom: 1px  solid rgba(0, 0, 0, 0.28);
+/* 			border:1px solid black; */
+		}
+		.clip {
+		  width: 3px;
+		  height:64px;
+		  background-color:white;
+		}
+		.cont {
+/* 		  padding: 0px 0px 0px 3px; */
+			padding: 7px 13px 0px 13px;
+  
+		}
+		
+		.topLayer{
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+			padding-top: 5px;
+/* 			width:300px; */
+/* 			border:1px solid black; */
+		}
+		.bottomLayer{
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+			padding-top: 5px;
+/* 			width:300px; */
+		}
+ 			
+		
+		.who
+		{
+/* 			width:162px; */
+			text-align:right;
+/* 			color: #7f7f7f; */
+
+/* 		border:1px solid red; */
+		}
+		
+		.when
+		{
+
+			width:132px;
+		text-align:right;
+			color: #7f7f7f;
+
+/* 		border:1px solid blue; */
+		}
+		
+		.what{
+		
+/* 			width:294px; */
+			text-align:left;
+			color: #7f7f7f;
+			padding: 2px 0px 0px 0px;
+			
+/* 			border: 1px solid yellow; */
+
+		}
+		
+		.icon{
+			padding-right: 10px;
+		}
+		
+		.parentsTitle{
+			display: inline-block;
+			font-size: 12px;
+			font-weight: bold;
+		}
+		.shared{
+			display: inline-block;
+		}
+
+		a:link {text-decoration: none; color: #7f7f7f;}
+		a:visited {text-decoration: none; color: #7f7f7f;}
+		a:active {text-decoration: none; color: #7f7f7f;}
+		a:hover {text-decoration: none; color: #7f7f7f;}
+
+	  </style>
+	  
+	  <a href="{{alternateLink}}" target="_blank">
+		<div class="item" >
+			<div id="clip" class="clip" ></div>
+			<div class="cont">
+				<div class="topLayer">
+					<div class="icon"><img src="{{ iconLink }}"></div>
+					<div class="what">{{ what }}</div>
+					<!-- <div class="when" >{{when}}</div>  -->
+				</div>
+				<div class="bottomLayer">
+					<div style="width:255px;text-align:left;">
+						<font size="2"><b>{{ parentsTitle }}</b></font> {{ shared }}
+					</div>
+					<div class="who">{{ who }}</div>
+				</div>
+			</div>
+		</div>
+	  </a>
+  </template>	
+  <script>
+	  Polymer('gin-drive-view-item', {
+  
+  
+	      mouseover: function(e) {
+	/*       	console.log("mouseover"); */
+	        this.$.clip.style.backgroundColor = '#8914a0';
+	        e.preventDefault();
+	      },
+	
+	      mouseout: function(e, detail, sender) {
+	/*       	console.log("mouseout");       */
+	        this.$.clip.style.backgroundColor = 'white';
+	        e.preventDefault();
+	      }
+  
+  
+	  });
+  </script>
+</element>

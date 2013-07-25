@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>SmartG</title>
+		<!-- LESS -->
+<!--
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		<link rel="stylesheet/less" type="text/css" href="less/style.less" />
+-->
+
+		<link rel="stylesheet" type="text/css" href="css/base.css">
+		
+		<script src="../../common/js/jquery-2.0.3.js"></script>
+		
+		<script type="text/javascript">
+		    less = {
+		        env: "development", // or "production"
+		        async: false,       // load imports async
+		        fileAsync: false,   // load imports async when in a page under
+		                            // a file protocol
+		        poll: 1000,         // when in watch mode, time in ms between polls
+		        functions: {},      // user functions, keyed by name
+		        dumpLineNumbers: "comments", // or "mediaQuery" or "all"
+		        relativeUrls: false,// whether to adjust url's to be relative
+		                            // if false, url's are already relative to the
+		                            // entry less file
+		        rootpath: ":/a.com/"// a path to add on to the start of every url
+		                            //resource
+		    };
+		</script>
+<!-- 		<script src="less/less-1.3.3.min.js" type="text/javascript"></script> -->
+		
+		
+		<!-- POLYMER -->
+		<script src="../polymer/polymer.js"></script>
+		
+<!-- 		<script src="../web-animations-js/web-animations.js"></script> -->
+		
+		<!-- COMPONENT -->
+		<link rel="import" href="components/ginterface/ginterface-main-header/ginterface-main-header.html">
+		<link rel="import" href="components/ginterface/ginterface-main-content/ginterface-main-content.html">	
+<!-- 		<link rel="import" href="../../polymer-elements/polymer-layout/polymer-layout.html"> -->
+
+			
+			
+		<style>
+		
+		
+			.header {
+				display: block;
+/* 				border:1px solid pink; */
+				height:46px;
+/* 				box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.15);; */
+			}
+		
+			.content{
+				display: block;
+/* 				border:1px solid blue; */
+			}
+
+		</style>	
+	</head>
+	<body style="background-color:#e5e5e5;" >
+
+		<!-- Header -->
+		<div class="header">
+			<ginterface-main-header></ginterface-main-header>
+		</div>
+		
+		<!-- Content -->
+		<div id="content" class="content">
+			<ginterface-main-content></ginterface-main-content>
+		</div>	
+		
+	</body>
+		<script>
+			/***************************************************************
+			*
+			*   Observable
+			*
+			***************************************************************/
+			var Observable;
+			(Observable = function() {
+			}).prototype = {
+			    listen: function(type, method, scope, context) {
+			        var listeners, handlers, scope;
+			        if (!(listeners = this.listeners)) {
+			            listeners = this.listeners = {};
+			        }
+			        if (!(handlers = listeners[type])){
+			            handlers = listeners[type] = [];
+			        }
+			        scope = (scope ? scope : window);
+			        handlers.push({
+			            method: method,
+			            scope: scope,
+			            context: (context ? context : scope)
+			        });
+			    },
+			    fireEvent: function(type, data, context) {
+			        var listeners, handlers, i, n, handler, scope;
+			        if (!(listeners = this.listeners)) {
+			            return;
+			        }
+			        if (!(handlers = listeners[type])){
+			            return;
+			        }
+			        for (i = 0, n = handlers.length; i < n; i++){
+			            handler = handlers[i];
+			            if (typeof(context)!=="undefined" && context !== handler.context) continue;
+			            if (handler.method.call(
+			                handler.scope, this, type, data
+			            )===false) {
+			                return false;
+			            }
+			        }
+			        return true;
+			    }
+			};
+			
+			var obs = new Observable();
+			obs.listen("myEvent", function(observable, eventType, data){
+			    //handle myEvent
+/* 			    alert("myEvent fire, start["+data.start+"], num["+data.num+"]"); */
+			    var content = document.querySelector('ginterface-main-content');
+			    content.setWidgetsVisible(this, data);
+			});
+			
+			
+			var isStart = true;
+			var menuColNum = 6;
+			var widgetNum = 6;
+			var currentMenuIndex = 0;
+			var prevMenuIndex = 0;
+			
+			var barHeight = 21;
+			var widgetW = 320+22;	
+			var width = $(window).width();
+			var height = $(window).height(); 
+			var screenTimer = null;
+			
+			var headerHeight = 46;
+			var menuHeight = 36;
+			var contentHeightForWidget = height - headerHeight + barHeight;
+			console.log("window.height : " + height);
+			function detectScreen (){
+				$(window).resize(function() {
+					height = $(window).height(); 
+					width = $(window).width(); 
+					getScreen ();
+				});
+			
+				function getScreen (){
+					return { 'height' : getHeight (), 'width': getWidth () };
+				}
+				
+				//screenTimer = setInterval ( getScreen (), 50 );
+				
+			}
+			
+			function getHeight (){
+/* 				console.log ( 'height: ' + height); */
+				return height;
+			}
+			
+			function getWidth (){
+/* 				console.log ( 'width: ' + width); */
+
+				var content = document.querySelector('ginterface-main-content');
+
+				document.body.style.overflow = "hidden";
+
+				contentHeightForWidget = (height - headerHeight);
+				var widgetHeigth = contentHeightForWidget - menuHeight;
+				document.getElementById("content").style.height = contentHeightForWidget + "px";
+				content.resetSize(widgetHeigth);
+				
+				var modValue = parseInt(width / widgetW);
+				if(widgetNum != modValue){
+					widgetNum = modValue <= menuColNum ? modValue : menuColNum;
+					
+					console.log("Index.html > widgetNum : " + widgetNum + ", modValue : " + modValue + ", width: " + width);
+					//var content = document.querySelector('ginterface-main-content');
+					content.resetWidgets();
+				}
+
+
+				return width;   
+			}
+			
+			
+			/*
+
+			$('#go').click (function (){
+			detectScreen ();
+			});
+			
+			$('#stop').click (function (){
+			clearInterval(screenTimer);
+			});
+			*/
+
+		    window.addEventListener('WebComponentsReady', function() {
+		      detectScreen();
+		      getWidth ();
+		      
+		    });
+
+		    function writeEmail(email){window.open ("http://mail.google.com/mail/?view=cm&fs=1&tf=1&source=mailto&to=" + email, "Janela", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=no, width=960, height=700")} ;
+		</script>
+		
+</html>
+
+
+
+
+

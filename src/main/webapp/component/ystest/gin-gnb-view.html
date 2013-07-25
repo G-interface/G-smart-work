@@ -1,0 +1,125 @@
+<!--
+/*
+ * Copyright 2013 G-Interface. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+
+<link rel="import" href="../polymer-elements/polymer-layout/polymer-layout.html">
+<link rel="import" href="../polymer-ui-elements/polymer-ui-tabs/polymer-ui-tabs.html">
+<polymer-element name="gin-gnb-view" >
+  <template>
+    
+    <style>
+    @host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+	    /* size */
+	    height: 66px;
+	    font-size: 12px;
+		  background-color: #ffffff;
+	  }	
+	}
+	
+	
+			
+			
+			
+			.container {
+					width:100%;
+			   	display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+			}
+
+			.none {
+			  -webkit-flex: none;
+			          flex: none;
+			   min-width: 150px;
+			}
+			
+			
+			.logo
+			{
+			-moz-box-flex:1.0; /* Firefox */
+			-webkit-box-flex:1.0; /* Safari and Chrome */
+			-ms-flex:1.0; /* Internet Explorer 10 */
+			box-flex:1.0;
+			}
+
+	
+			.account{
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+				
+			}
+			
+			.photo{
+				margin: 5px;
+			}
+			
+					
+			
+			
+			
+    </style>
+    
+    <div class="container">
+    
+    	<!-- Logo -->
+    	<div class="logo" >
+    		<img src="images/gin-logo.png" style="padding:5px 42px 3px 42px;">
+    	</div>
+    	    	
+    	
+    	<!-- Menu -->
+<!--
+    	<div class="tabs">
+			<polymer-ui-tabs selected="0">		
+				<span>조직</span>
+				<span>메일</span>
+				<span>문서</span>
+				<span>할일</span>
+				<span>공지</span>
+				<span>생일</span>
+			</polymer-ui-tabs>
+    	</div>
+-->
+
+    	
+    	<!-- Account -->
+		<div class="none">
+			<div class="account">
+				<div class="info">
+					<div style="display:block; margin:5px;font-weight: bold;">이은지5555555</div>
+					<div style="display:block; margin:5px;font-size: 10px"> eungi@g-interface.com </div>
+				</div>
+				<div class="photo"> <img src="https://lh5.googleusercontent.com/-CS5FIy_QA8Y/AAAAAAAAAAI/AAAAAAAABjM/Ng_VANmqk7U/s28-c-k-no/photo.jpg"> </div>
+			</div>
+		</div>    	
+    	
+    </div>
+    
+  </template>
+	<script>
+	
+	Polymer('gin-gnb-view', {
+/*
+		salutations: [
+		    { item:'조직', alt: 'org' },
+		    { item:'메일', alt: 'mail' },
+		    { item:'문서', alt: 'doc' },
+		    { item:'할일', alt: 'task' }
+		 ],
+*/
+	});
+	</script>
+</element>

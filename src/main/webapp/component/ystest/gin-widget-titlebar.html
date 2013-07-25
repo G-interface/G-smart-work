@@ -1,0 +1,131 @@
+
+<link rel="import" href="../polymer-ui-elements/polymer-ui-toolbar/polymer-ui-toolbar.html">
+<link rel="import" href="../polymer-ui-elements/polymer-ui-icon-button/polymer-ui-icon-button.html">
+<polymer-element name="gin-widget-titlebar" attributes="widgetid title">
+
+	<template>
+		<style>
+		
+		@host {
+  * {
+    /* technical */
+
+    /* border/shadow */
+/*     border-bottom: 1px solid rgba(0, 0, 0, 0.28); */
+    /* size */
+/*     height: 60px; */
+	font-family: 돋음, Dotum, Baekmuk Dotum, Undotum, Apple Gothic, Latin font, sans-serif;
+
+    font-size: 21px;
+  }
+  }
+		
+		
+
+		
+  .polymer-ui-light-theme {
+    background: #f2f2f2 -webkit-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
+    background: #f2f2f2 -moz-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
+    background: #f2f2f2 -ms-linear-gradient(top, rgba(197,197,197,0), rgba(197,197,197,0.15));
+    color: #333333;
+  }
+		
+			.container {
+					width:100%;
+			   	display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+			border-bottom: 1px solid #d7d7d7;
+			}
+
+			.initial {
+			
+			  -webkit-flex: initial;
+			          flex: initial;
+			  width: 50px;
+			  min-width: 50px;
+			}
+			.none {
+			  -webkit-flex: none;
+			          flex: none;
+			  width: 50px;
+			}
+			
+			
+			.p1
+			{
+			-moz-box-flex:1.0; /* Firefox */
+			-webkit-box-flex:1.0; /* Safari and Chrome */
+			-ms-flex:1.0; /* Internet Explorer 10 */
+			box-flex:1.0;
+/* 			border:1px solid red; */
+			}
+
+			
+		</style>
+		
+<!--
+		<polymer-ui-toolbar theme="polymer-ui-light-theme" >
+
+			<polymer-ui-icon-button icon="refresh" ></polymer-ui-icon-button>
+
+			<div class="p1">
+				{{ title }}
+			</div>
+
+			<polymer-ui-icon-button icon="add" class="none"></polymer-ui-icon-button>
+
+		</polymer-ui-toolbar>
+-->
+
+
+	<div class="container polymer-ui-light-theme">
+	
+		<div class="initial">
+			<polymer-ui-icon-button icon="refresh" ></polymer-ui-icon-button>
+		</div>
+		
+		<div class="p1" style="text-align: center; margin:10px; font-size:13px;">
+			{{ title }}
+		</div>
+		
+		
+		<div class="none">
+			<polymer-ui-icon-button icon="add" class="none"></polymer-ui-icon-button>
+		</div>
+	
+	
+	</div>
+
+
+	
+	</template>
+	
+	
+	<script>
+		Polymer('gin-widget-titlebar', {
+			
+			
+			
+		});	
+	</script>
+
+
+
+</element>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

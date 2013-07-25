@@ -1,0 +1,249 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="gin-widget-titlebar.html">
+<link rel="import" href="gin-community-view-item.html">
+
+<link rel="import" href="polymer-ajax/polymer-ajax.html">
+<polymer-element name="gin-community-view" >
+  <template>
+    
+    <style>
+    	@host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+	    /* size */
+	    height: 100%;
+	    font-size: 12px;
+				background-color: #ffffff;
+	  }	
+	}
+	
+	.container{
+		display:-moz-box; /* Firefox */
+		display:-webkit-box; /* Safari and Chrome */
+		display:-ms-flexbox; /* Internet Explorer 10 */
+		display:box;
+				background-color: #ffffff;
+				
+	}
+
+	
+
+/* search form 
+-------------------------------------- */
+.searchform {
+	display: inline-block;
+	zoom: 1; /* ie7 hack for display:inline-block */
+	*display: inline;
+	border: solid 1px #d2d2d2;
+	padding: 3px 5px;
+	
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+
+	-webkit-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+	-moz-box-shadow: 0 1px 0px rgba(0,0,0,.1);
+	box-shadow: 0 1px 0px rgba(0,0,0,.1);
+
+	background: #f1f1f1;
+	background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ededed));
+	background: -moz-linear-gradient(top,  #fff,  #ededed);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie7 */
+	-ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#ededed'); /* ie8 */
+}
+.searchform input {
+	font: normal 12px/100% Arial, Helvetica, sans-serif;
+}
+.searchform .searchfield {
+	background: #fff;
+	padding: 6px 6px 6px 8px;
+	width: 245px;
+	border: solid 1px #bcbbbb;
+	outline: none;
+
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+}
+.searchform .searchbutton {
+	color: #fff;
+	border: solid 1px #494949;
+	font-size: 11px;
+	height: 27px;
+	width: 27px;
+	text-shadow: 0 1px 1px rgba(0,0,0,.6);
+
+	-webkit-border-radius: 2em;
+	-moz-border-radius: 2em;
+	border-radius: 2em;
+
+	background: #5f5f5f;
+	background: -webkit-gradient(linear, left top, left bottom, from(#9e9e9e), to(#454545));
+	background: -moz-linear-gradient(top,  #9e9e9e,  #454545);
+	filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie7 */
+	-ms-filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#9e9e9e', endColorstr='#454545'); /* ie8 */
+}
+
+.title{
+	padding: 10px 10px 10px 10px;
+	line-height:30px;
+	height:30px;
+	background-color: #ffffff;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+		          
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+/* 		   border: 1px  solid rgba(0, 0, 0, 0.28); */
+}
+	
+	
+    </style>
+    
+    <div>
+    	<!-- 타이틀 바 -->
+		
+		<div class="title">
+			<img src="images/title/community_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding-left:10px;height:30px;font-size:16px;font-weight:bold">커뮤니티</div>
+    		<div style="width:150px;height:30px;"></div>
+		</div>
+		
+
+    	<!-- 컨텐츠 -->	    
+	    <div id="containergg" loaded="{{loaded}}"  style="overflow:scroll;">
+
+	    </div>
+	    
+    </div>
+    
+    
+    	    <polymer-ajax id="ajaxComponent" url="http://gdata.youtube.com/feeds/api/videos/" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+    
+  </template>
+  <script>
+  
+  Polymer('gin-community-view', {
+/*
+		
+		ready : function(){
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+	          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+	          //done();
+	          //alert("!!! ajax event : ");
+	          
+			  var 
+	      
+		     //var community = event.detail.response; 
+		  
+	          this.maker.setData(community);
+	        });
+	        ajax.go();
+		 
+		},
+*/
+
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{
+	  			if(url==null)
+		  			ajax.url = "/community";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var community;
+		  		if(window.location.hostname == "localhost"){
+					community = [{id: "id",name: "community1",url: "http://www.naver.com",imageUrl: "http://www.google.com/s2/photos/public/AIbEiAIAAABDCIKqqMOkyv_vfCILdmNhcmRfcGhvdG8qKGU4YWU3MDUzZjFjNTdhMmM1YzM4M2NiZmJiNzc3YTIzNDZlZDgyNmMwASvuZ9cArXYUIc7-A4ht2xDDcB0I"},{id: "id",name: "community2",url: "http://www.naver.com",imageUrl: "http://www.google.com/s2/photos/public/AIbEiAIAAABDCIKqqMOkyv_vfCILdmNhcmRfcGhvdG8qKGU4YWU3MDUzZjFjNTdhMmM1YzM4M2NiZmJiNzc3YTIzNDZlZDgyNmMwASvuZ9cArXYUIc7-A4ht2xDDcB0I"},{id: "id",name: "community3",url: "http://www.naver.com",imageUrl: "http://www.google.com/s2/photos/public/AIbEiAIAAABDCIKqqMOkyv_vfCILdmNhcmRfcGhvdG8qKGU4YWU3MDUzZjFjNTdhMmM1YzM4M2NiZmJiNzc3YTIzNDZlZDgyNmMwASvuZ9cArXYUIc7-A4ht2xDDcB0I"}] ;
+		      
+		  		}else{
+			  		community = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.setData(community);
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+		 setData : function(data){
+		 
+				 console.log("gin-community-view > setData , data : ");
+			 for(var i=0; i<data.length; i++){
+				 var community = document.createElement('gin-community-view-item', 'x-foo-button');
+				 this.$.containergg.appendChild(community);
+				 community.what = data[i].name ;	
+				 community.photo = data[i].imageUrl;	
+				 community.linkurl = data[i].url;	 
+			 }
+
+/* 			 console.log("gin-community-view > setData , data : " + data); */
+		 },
+		 
+		 setSize : function (widgetHeight){
+			 this.$.containergg.style.height = widgetHeight+ "px";;
+		 }
+	});
+	
+	
+			//var assert = chai.assert;
+/*
+		      document.addEventListener('WebComponentsReady', function() {
+		        var ajax = document.querySelector('polymer-ajax');
+		        ajax.addEventListener("polymer-response", function(event) {
+		          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+		          //done();
+		          console.log("ajax event : ");
+		        });
+		      });
+*/
+  </script>
+</element>

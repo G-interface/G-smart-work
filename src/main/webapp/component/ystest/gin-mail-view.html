@@ -1,0 +1,202 @@
+<!--
+/*
+ * Copyright 2013 The Polymer Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style
+ * license that can be found in the LICENSE file.
+ */
+-->
+<link rel="import" href="gin-widget-titlebar.html">
+<link rel="import" href="gin-mail-view-item.html">
+
+<link rel="import" href="polymer-ajax/polymer-ajax.html">
+<polymer-element name="gin-mail-view" >
+  <template>
+    
+    <style>
+    	@host {
+	  * {
+	    /* technical */
+	    box-sizing: border-box;
+	    -moz-box-sizing: border-box;
+	    /* border/shadow */
+	    border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+	    /* size */
+	    height: 100%;
+	    font-size: 12px;
+/* 			overflow: hidden; */
+
+	  }	
+	 }
+	  
+	  .title{
+	padding: 10px 10px 10px 10px;
+	line-height:30px;
+	height:30px;
+	background-color: #ffffff;
+				display:-moz-box; /* Firefox */
+				display:-webkit-box; /* Safari and Chrome */
+				display:-ms-flexbox; /* Internet Explorer 10 */
+				display:box;
+			
+		          
+				-ms-box-orient:horizontal;	
+				-moz-box-orient:horizontal;		
+				-webkit-box-orient:horizontal;			
+				box-orient:horizontal;
+/* 		   border: 1px  solid rgba(0, 0
+/* 		   border: 1px  solid rgba(0, 0, 0, 0.28); */
+	}
+	
+
+    </style>
+    
+    <div>
+    	<!-- 타이틀 바 -->
+<!--
+    	<div class="titleff">
+			<img src="images/title/mail_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding:8px;font-size:16px;font-weight:bold">메일</div>
+		</div>
+-->
+
+		<div class="title">
+			<img src="images/title/mail_icon.png" style="width:30px;height:30px;"> 
+			<div style="padding-left:10px;height:30px;font-size:16px;font-weight:bold">메일</div>
+    		<div style="width:170px;height:30px;"></div>
+    		<div style="width:30px;height:30px;padding-top:5px;cursor:pointer;" on-click="writeMail"><img src="images/write.png"></div>
+    		<div style="width:1px;height:30px;"></div>
+    		<div style="width:30px;height:30px;padding-top:5px;" ><a href="http://mail.google.com" target="_blank"><img src="images/home.png"></a></div>
+		</div>
+    	<!-- 컨텐츠 -->	    
+	    <div id="containergg" loaded="{{loaded}}" style="overflow-y:scroll;overflow-x:hidden;">
+
+	    </div>
+    </div>
+    
+    
+    	    <polymer-ajax id="ajaxComponent" url="http://gdata.youtube.com/feeds/api/videos/" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+    
+  </template>
+  <script>
+  
+  Polymer('gin-mail-view', {
+  /*
+
+	  ready : function(){
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+	          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+	          //done();
+	          //alert("!!! ajax event : ");
+	           
+		      var 
+		      
+		     //var mail = event.detail.response; 
+		      
+	      
+	          this.maker.setData(mail.reverse());
+	        });
+	        ajax.go();
+		 
+		},
+		
+*/
+		
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{
+	  			if(url==null)
+		  			ajax.url = "/mail";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var mail;
+		  		if(window.location.hostname == "localhost"){
+					mail = [{"subject":"Your domain report is ready!","from":"Backupify Tools <tools@backupify.com>","isRead":"false","receivedDate":"20130717141650"},{"subject":"SaaS Data Loss: Analyst Report","from":"Backupify <demand@backupify.com>","isRead":"false","receivedDate":"20130716040041"},{"subject":"null","from":"관리자 <admin@g-interface.com>","isRead":"true","receivedDate":"20130712160010"},{"subject":"null","from":"관리자 <admin@g-interface.com>","isRead":"true","receivedDate":"20130712155227"},{"subject":"null","from":"한우람 <hwr@g-interface.com>","isRead":"true","receivedDate":"20130712144438"},{"subject":"Report: 2 out of 3 Companies Will Lose SaaS Data","from":"Backupify <demand@backupify.com>","isRead":"false","receivedDate":"20130712040023"},{"subject":"Tell us what you think about Netkiller Shared Contacts for g-interface.com.","from":"NETKILLER <admin@netkiller.com>","isRead":"false","receivedDate":"20130711161224"},{"subject":"Welcome to netkiller_Docs for g-interface.com.","from":"NETKILLER <admin@netkiller.com>","isRead":"false","receivedDate":"20130711151200"},{"subject":"G-스마트워크 API (admin@g-interface.com)","from":"한우람 (Google 드라이브) <hwr@g-interface.com>","isRead":"false","receivedDate":"20130711100126"},{"subject":"sdfsdf","from":"관리자 <admin@g-interface.com>","isRead":"true","receivedDate":"20130710164703"},{"subject":"ㄴㅇㄹ","from":"관리자 <admin@g-interface.com>","isRead":"true","receivedDate":"20130710164515"},{"subject":"Step 1: Pick a fax plan for your team","from":"HelloFax <noreply@mail.hellofax.com>","isRead":"true","receivedDate":"20130710154832"},{"subject":"Check out HelloFax for Google Apps","from":"HelloSign <noreply@mail.hellosign.com>","isRead":"true","receivedDate":"20130710025150"},{"subject":"Add contacts to your Netkiller Shared Contacts for g-interface.com.","from":"NETKILLER <admin@netkiller.com>","isRead":"true","receivedDate":"20130704161538"},{"subject":"제목 없는 스프레드시트 공유 요청","from":"한우람 (Google 드라이브) <hwr@g-interface.com>","isRead":"true","receivedDate":"20130704154536"},{"subject":"Secure & Control Your SaaS Data","from":"Backupify <demand@backupify.com>","isRead":"true","receivedDate":"20130702040027"},{"subject":"Welcome to Netkiller Shared Contacts for g-interface.com.","from":"NETKILLER <admin@netkiller.com>","isRead":"true","receivedDate":"20130701160625"},{"subject":"ginterface logo (admin@g-interface.com)","from":"이은지 (Google 드라이브) <eunji@g-interface.com>","isRead":"true","receivedDate":"20130701112847"},{"subject":"The Importance of Cloud Data Backup","from":"Backupify <demand@backupify.com>","isRead":"true","receivedDate":"20130628050205"},{"subject":"Re: 동강 래프팅","from":"정영수 (Google+) <noreply-2af95fc4@plus.google.com>","isRead":"true","receivedDate":"20130620155541"},{"subject":"FreeSpace from Backupify","from":"Ashok Pitchamani <ashok@backupify.com>","isRead":"false","receivedDate":"20130620144343"},{"subject":"Re: 카테고리를 추가해 보았습니다.","from":"이봉춘 (Google+) <noreply-a435a85a@plus.google.com>","isRead":"false","receivedDate":"20130619165428"},{"subject":"Re: 카테고리를 추가해 보았습니다.","from":"정영수 (Google+) <noreply-2af95fc4@plus.google.com>","isRead":"false","receivedDate":"20130619164350"},{"subject":"Re: 카테고리를 추가해 보았습니다.","from":"이봉춘 (Google+) <noreply-a435a85a@plus.google.com>","isRead":"false","receivedDate":"20130619153439"},{"subject":"[지인터페이스] test","from":"이영규 (Google+) <noreply-abb31c@plus.google.com>","isRead":"false","receivedDate":"20130619151910"},{"subject":"Re: 테스트 글입니다 ^^","from":"정영수 (Google+) <noreply-2af95fc4@plus.google.com>","isRead":"false","receivedDate":"20130619145804"},{"subject":"Order receipt from Google ($25.00 USD)","from":"Google Wallet <noreply@wallet.google.com>","isRead":"true","receivedDate":"20130618220159"},{"subject":"Re: 테스트!!","from":"이영규 (Google+) <noreply-abb31c@plus.google.com>","isRead":"true","receivedDate":"20130618185727"},{"subject":"이영규님이 Google+에 나를 추가했습니다.","from":"Google+ <noreply-3b0e3cd5@plus.google.com>","isRead":"true","receivedDate":"20130618144313"},{"subject":"이영규님이 Google+ 지인터페이스에 가입하고 싶어합니다.","from":"이영규 (Google+) <noreply-abb31c@plus.google.com>","isRead":"true","receivedDate":"20130618135909"},{"subject":"디자인-괜찮은사이트 (admin@g-interface.com)","from":"이봉춘 (Google 드라이브) <bong@g-interface.com>","isRead":"true","receivedDate":"20130617002759"}]
+		  		
+		  		
+		  		
+		  		}else{
+			  		mail = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.setData(mail);
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+		
+
+		
+		
+		 setData : function(data){
+		 
+			 console.log("gin-mail-view > setData , data : ");
+			 for(var i=0; i<data.length; i++){
+				 var mail = document.createElement('gin-mail-view-item', 'x-foo-button');
+				 this.$.containergg.appendChild(mail);
+				 var who = data[i].from.substring(0, data[i].from.indexOf("<"));
+				 
+				 mail.who =  who;	
+				 mail.what = data[i].subject;	
+				 var when = data[i].receivedDate.substr(0, 4) + "." + data[i].receivedDate.substr(4,2) + "." + data[i].receivedDate.substr(6, 2);	
+				 mail.when = when;		
+				 mail.emailLink = data[i].link;
+				 mail.color = "#7f7f7f";
+				 
+				 if(data[i].isRead == false){
+				 	mail.color = "#000000";
+				 	mail.bgcolor = "#ffffff";
+				 	mail.fontbold = "bold";
+				 	mail.fontsize = "13px";
+				 }
+				 
+			 }
+
+			 //console.log("gin-mail-view > setData , data : " + data);
+		 },
+		 
+		 setSize : function (containerggHeight){
+		 	console.log("containerggHeight : " + containerggHeight);
+			 this.$.containergg.style.height = containerggHeight+ "px";;
+		 },
+		 
+		 writeMail : function(){
+			 
+			 writeEmail(""); 
+		 }
+	});
+  </script>
+</element>

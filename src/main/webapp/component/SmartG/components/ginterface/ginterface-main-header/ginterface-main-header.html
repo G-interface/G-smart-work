@@ -1,0 +1,203 @@
+
+
+<link rel="import" href="../../../../ystest/polymer-ajax/polymer-ajax.html">
+<polymer-element name="ginterface-main-header">
+
+	<template>
+		<style>
+			@host {
+				* {
+				box-sizing: border-box;
+				-moz-box-sizing: border-box;
+				background-color: #ffffff;
+				color:#262626;  
+				height: 46px;
+				}
+			}
+
+		
+	
+			#container-header {
+			width:100%;
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+			background-color: #ffffff;
+			}
+			
+			#logo-header {
+			-webkit-flex: none;
+			flex: none;
+			padding: 7px 15px 0px 15px;
+			}
+			
+			
+			#company-header{
+			-moz-box-flex:1.0; /* Firefox */
+			-webkit-box-flex:1.0; /* Safari and Chrome */
+			-ms-flex:1.0; /* Internet Explorer 10 */
+			box-flex:1.0;
+			margin-top: 15px;
+			}
+			
+			
+			#profile-header{
+			display:-moz-box; /* Firefox */
+			display:-webkit-box; /* Safari and Chrome */
+			display:-ms-flexbox; /* Internet Explorer 10 */
+			display:box;
+			padding: 5px 15px 5px 15px;
+			}
+			
+			#photo-header{
+				height:36px;
+			}
+						
+			
+		</style>
+
+		<div id="container-header">
+			<!-- Logo -->
+			<div id="logo-header">
+				<img src="images/logo.png" alt="지인터페이스">
+			</div>
+			
+			<!-- Company Name -->
+			<div id="company-header">
+				|주| 지.인터페이스
+			</div>
+				
+			<!-- Profile --><!--
+
+			<div id="profile">
+				profile
+			</div>
+			
+-->
+
+			<div id="profile-header">
+				<div class="info">
+					<div style="display:block; padding: 4px 10px 2px 0px; color:#7f7f7f; font-size:11px; text-align:right;">{{name}}</div>
+					<div style="display:block; padding: 2px 10px 2px 0px; color:#7f7f7f; font-size:11px; text-align:right; "> {{email}} </div>
+				</div>
+				<div id="photo-header"> <img src="{{photo}}" height="36" width="36"> </div>
+			</div>
+
+		</div>
+		
+		
+    	 <polymer-ajax id="ajaxComponent" url="/profile" 
+	        params='{"alt":"json", "q":"chrome"}'
+	        handleAs="json">
+	    </polymer-ajax>
+		
+	</template>
+	<script>
+		Polymer('ginterface-main-header', {
+		/*
+
+			  ready : function(){
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	        ajax.addEventListener("polymer-response", function(event) {
+	          //assert.isTrue(event.detail.response.feed.entry.length > 0);
+	          //done();
+	          //alert("!!! ajax event : ");
+	           
+		     //var 
+		     var profile = event.detail.response; 
+		      
+	      
+	          this.maker.setData(profile);
+	        });
+	        ajax.go();
+		 
+		},
+		
+		
+*/
+		
+	  	ready : function(){
+	  
+			this.goAjax();
+		 
+		},
+		
+		goAjax : function(url, params){
+		
+			var ajax = this.$.ajaxComponent;
+			ajax.maker = this;
+	
+	  		var url, params;
+	  		if(window.location.hostname == "localhost"){
+		  		ajax.url = "http://gdata.youtube.com/feeds/api/videos/";
+		  		ajax.params = {"alt":"json", "q":"chrome", "type":"recent"};
+	  		}else{
+	  			if(url==null)
+		  			ajax.url = "/profile";
+		  		else 
+		  			ajax.url = url;
+		  			
+		  		if(params==null)	
+		  			ajax.params = {"alt":"json", "q":"chrome"};
+		  		else 
+		  			ajax.params = params;
+		  			
+	  		}
+		
+		      		      
+		      
+
+	        ajax.addEventListener("polymer-response", function(event) {
+
+				var profile;
+		  		if(window.location.hostname == "localhost"){
+					profile = {"familyName":"이", "givenName":"은지","primaryEmail":"eungi@g-interface.com", "photo":"https://lh5.googleusercontent.com/-CS5FIy_QA8Y/AAAAAAAAAAI/AAAAAAAABjM/Ng_VANmqk7U/s28-c-k-no/photo.jpg"} ;
+		      
+		  		}else{
+			  		profile = event.detail.response; 
+			  	}
+			  	
+			  	this.maker.setData(profile);
+	        });
+	        
+	        
+	        ajax.go();
+		 
+		},
+		
+		
+		
+		 setData : function(data){
+		 
+			console.log("gin-main-header > setData , data : ");
+			 this.name = data.familyName + data.givenName;
+			 this.email = data.primaryEmail;
+			 this.photo = data.photo;
+
+/* 			 console.log("gin-orgunit-view > setData , data : " + data); */
+		 },
+		
+		});
+	</script>
+
+</element>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
